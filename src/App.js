@@ -149,6 +149,7 @@ const totalPings = async () => {
     }
   }
 
+  const dynamicUrl = query => `https://rinkeby.etherscan.io/address/${query}`
 
   useEffect(() => {
     checkIfWalletIsConnected();
@@ -162,7 +163,7 @@ const totalPings = async () => {
         </div>
 
         <div className="bio">
-          I am Salem and I don't like defining myself under the umbrella of my career work
+			You can ping <a href="https://salemalhaddad.com" rel="noreferrer" target="_blank">Salem</a> with a message using MetaMask. Make sure you're connected to the Rinkeby newtork.
         </div>
 		<br/>
 
@@ -178,23 +179,28 @@ const totalPings = async () => {
 
 
 		{currentAccount && (
-			<button className="pingButton" onClick={totalPings}>
-				{buttonText}
-			</button>
+			<div id="test">
+				<button className="numButton" onClick={totalPings}>
+					{buttonText}
+				</button>
+				<br />
+				<p className="bio">latest messages are at the bottom</p>
+			</div>
         )}
-		<p> bottom msg is latest </p>
+
         {!currentAccount && (
           <button className="pingButton" onClick={connectWallet}>
             Connect Wallet
           </button>
+
         )}
 
 		{allPings.map((ping, index) => {
 			return(
-			<div key={index} style={{ backgroundColor: "OldLace", marginTop: "16px", padding: "8px" }}>
-              <div>Address: {ping.address}</div>
+			<div key={index} style={{ backgroundColor: "OldLace", marginTop: "16px", padding: "8px", borderRadius: "5px" }}>
+              <div>Address: <a href={dynamicUrl(ping.address)} target="_blank" rel="noreferrer">{ping.address}</a></div>
               <div>Time: {ping.timestamp.toString()}</div>
-              <div>Message: {ping.message}</div>
+              <div>Message: <b>{ping.message}</b></div>
             </div>)
 		})}
 
