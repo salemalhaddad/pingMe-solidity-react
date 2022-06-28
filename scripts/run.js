@@ -1,25 +1,24 @@
 // This file compiles the contract, deploys to blockchain, and console.log a string
 const main = async () => {
-	const [owner, randomPerson] = await hre.ethers.getSigners();
 	const pingContractFactory = await hre.ethers.getContractFactory("Portal"); //complies contract and generate files under artifacts folder
 	const pingContract = await pingContractFactory.deploy(); // creates a eth network for the compiled contract
 	await pingContract.deployed();
+	console.log("Contract addy:", pingContract.address);
 
-	console.log("Contract deployed to:", pingContract.address);
-  	console.log("Contract deployed by:", owner.address);
 
 	let pingCount;
 	pingCount = await pingContract.getTotalPings();
+	console.log(pingCount.toNumber());
 
-	let pingTxn = await pingContract.ping();
+	let pingTxn = await pingContract.ping("A nessage");
 	await pingTxn.wait();
 
-	pingCount = await pingContract.getTotalPings();
-
-	pingTxn = await pingContract.connect(randomPerson).ping();
+	const [_, randomPerson] = await hre.ethers.getSigners();
+	pingTxn = await pingContract.connect(randomPerson).ping("Another message");
 	await pingTxn.wait();
 
-	pingCount = await pingContract.getTotalPings();
+	let allPings = await pingContract.getAllPings();
+	console.log(allPings)
   };
 
   const runMain = async () => {
