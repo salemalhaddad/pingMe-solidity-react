@@ -2,6 +2,8 @@
 
 A website to send messages through the Rinkeby Test Network.
 
+Live website: https://ping-me-solidity-react.vercel.app/
+
 ## Available Scripts
 
 In the project directory, you can run:
